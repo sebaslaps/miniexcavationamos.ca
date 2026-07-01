@@ -1,0 +1,51 @@
+[
+  {
+    "slug": "mini-excavation-amos",
+    "language": "fr-CA",
+    "city": "Amos",
+    "province": "QC",
+    "region": "Abitibi-Témiscamingue",
+    "subregion": "Abitibi",
+    "service": "Mini-excavation résidentielle et commerciale",
+    "primaryKeyword": "mini excavation Amos QC",
+    "secondaryKeywords": [
+      "mini-pelle Amos",
+      "mini-excavation à Amos",
+      "excavation résidentielle Amos",
+      "excavation commerciale Amos",
+      "terrassement Amos",
+      "drain français Amos",
+      "excavation de fondation Amos",
+      "nivellement Amos",
+      "excavation en espace restreint Abitibi"
+    ],
+    "title": "Mini-excavation à Amos",
+    "metaDescription": "Mini-excavation à Amos : drainage, terrassement, fondation, nivellement et accès restreints. Travaux possibles à la mini-pelle.",
+    "phone": {
+      "display": "(581) 502-0202",
+      "href": "+15815020202",
+      "placeholder": "Numéro de suivi Twilio"
+    },
+    "serviceArea": [
+      "Amos",
+      "Saint-Mathieu-d’Harricana",
+      "Saint-Félix-de-Dalquier",
+      "Trécesson",
+      "La Corne"
+    ],
+    "valueProps": [
+      "Équipement compact, comme une mini-pelle, pour travailler dans les espaces serrés",
+      "Chantier propre et lieux remis en ordre",
+      "Soumission claire avant le début des travaux"
+    ],
+    "projectTypes": [
+      "drain français et drainage autour des fondations",
+      "terrassement et nivellement de terrain",
+      "excavation de fondation et réparation d'infiltration",
+      "fosse septique et préparation de terrain",
+      "creusage de tranchées pour ponceaux, conduites et services",
+      "excavation en espace restreint"
+    ],
+    "seasonality": "Printemps, été et automne, avec demandes fréquentes après le dégel, les fortes pluies ou avant des travaux d’aménagement en Abitibi."
+  }
+]

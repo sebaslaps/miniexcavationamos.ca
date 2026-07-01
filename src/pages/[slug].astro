@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import sites from '../data/sites.json';
+import servicePages from '../data/service-pages.json';
+
+export function getStaticPaths() {
+  return servicePages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page }
+  }));
+}
+
+const { page } = Astro.props;
+const site = sites.find((entry) => entry.slug === 'mini-excavation-amos');
+if (!site) {
+  throw new Error('Missing mini-excavation-amos site dataset');
+}
+
+const pageH2 = page.h2 ?? page.title;
+const sections = page.sections ?? [];
+const faqs = page.faqs ?? [];
+const relatedLinks = page.relatedLinks ?? [];
+const ctaTitle = page.ctaTitle ?? `Besoin de ${page.h1.toLowerCase()}?`;
+const ctaText = page.ctaText ?? 'Décrivez votre projet, l’accès au chantier et le délai souhaité. On vous revient avec une soumission claire.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: page.title,
+  serviceType: page.h1,
+  areaServed: [
+    { '@type': 'City', name: 'Amos' },
+    { '@type': 'AdministrativeArea', name: 'Abitibi' }
+  ],
+  provider: {
+    '@type': 'Organization',
+    name: 'Mini-Excavation Amos',
+    telephone: site.phone.href
+  },
+  inLanguage: 'fr-CA',
+  description: page.metaDescription
+};
+
+const faqJsonLd = faqs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+} : null;
+---
+<BaseLayout title={page.title} description={page.metaDescription} canonical={`/${page.slug}/`}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  {faqJsonLd && <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
+  <a slot="nav-cta" class="phone-button" href={`tel:${site.phone.href}`}>Appelez {site.phone.display}</a>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">{page.eyebrow}</p>
+        <h1>{page.h1}</h1>
+        <p class="lead">{page.summary}</p>
+        <div class="hero-actions">
+          <a class="button" href={`tel:${site.phone.href}`}>Appelez pour une soumission gratuite</a>
+        </div>
+      </div>
+      <aside class="card cta-card" aria-label="Soumission rapide">
+        <p class="eyebrow">Réponse rapide</p>
+        <h2>Parlez-nous de votre chantier</h2>
+        <p>
+          Accès, pente, drainage, fondation ou nivellement : un appel suffit pour expliquer les travaux et préparer une
+          soumission claire.
+        </p>
+        <a class="phone-button" href={`tel:${site.phone.href}`}>Appelez {site.phone.display}</a>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Description du service</p>
+        <h2>{pageH2}</h2>
+        <p class="lead">{page.body}</p>
+      </div>
+      {relatedLinks.length > 0 && (
+        <div class="notice">
+          <h3>Services reliés</h3>
+          <ul>
+            {relatedLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {sections.map((section, index) => (
+    <section class={index % 2 === 0 ? 'soft' : ''}>
+      <div class="container grid-2">
+        <div>
+          <p class="eyebrow">À savoir</p>
+          <h2>{section.heading}</h2>
+        </div>
+        <div>
+          {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+          {section.items?.length > 0 && (
+            <ul class="steps">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  {faqs.length > 0 && (
+    <section class="soft">
+      <div class="container">
+        <p class="eyebrow">Questions fréquentes</p>
+        <h2>Réponses avant les travaux</h2>
+        <div class="grid-3">
+          {faqs.map((faq) => (
+            <article class="feature">
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section id="soumission">
+    <div class="container">
+      <div class="final-cta">
+        <p class="eyebrow">Soumission par téléphone</p>
+        <h2>{ctaTitle}</h2>
+        <p>{ctaText}</p>
+        <p>Pour nous joindre rapidement, appelez directement au <strong>{site.phone.display}</strong>.</p>
+        <p><a class="phone-button" href={`tel:${site.phone.href}`}>Appelez {site.phone.display}</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

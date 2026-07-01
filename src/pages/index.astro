@@ -1,0 +1,264 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import sites from '../data/sites.json';
+
+const site = sites.find((entry) => entry.slug === 'mini-excavation-amos');
+if (!site) {
+  throw new Error('Missing mini-excavation-amos site dataset');
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: site.service,
+  serviceType: site.service,
+  areaServed: site.serviceArea.map((name) => ({ '@type': 'City', name })),
+  provider: {
+    '@type': 'Organization',
+    name: 'Mini-Excavation Amos',
+    telephone: site.phone.href,
+    areaServed: `${site.city}, ${site.province}`
+  },
+  inLanguage: site.language,
+  description: site.metaDescription
+};
+
+const services = [
+  {
+    title: 'Mini-excavation résidentielle et commerciale',
+    href: '/mini-excavation-amos/',
+    text: "Mini-excavation pour l'aménagement de terrain, les accès restreints et les petits chantiers résidentiels ou commerciaux."
+  },
+  {
+    title: 'Drain français',
+    href: '/drain-français/',
+    text: "Installation et réparation de drain français pour garder l'eau loin de vos fondations et le sous-sol au sec."
+  },
+  {
+    title: 'Drainage de terrain',
+    href: '/drainage/',
+    text: "Correction de drainage, gestion des eaux de surface et pentes pour aider l'eau à s'éloigner de la maison."
+  },
+  {
+    title: 'Fissure de fondation',
+    href: '/fissure-fondation/',
+    text: "Excavation ciblée autour du solage lorsqu'une fissure, une infiltration ou une zone humide doit être dégagée."
+  },
+  {
+    title: 'Excavation de fondation',
+    href: '/excavation-fondation/',
+    text: "Mise à nu des fondations pour réparer les fissures, traiter les infiltrations ou refaire l'imperméabilisation."
+  },
+  {
+    title: 'Terrassement et nivellement',
+    href: '/terrassement-nivellement/',
+    text: "Correction de pente, préparation de terrain et nivellement -- pour bâtir, drainer ou simplement remettre votre cour d'aplomb."
+  },
+  {
+    title: 'Nivellement de terrain',
+    href: '/nivellement/',
+    text: "Mise à niveau d'une cour, d'une entrée ou d'une zone de gravier pour une surface plus stable et mieux drainée."
+  },
+  {
+    title: 'Fosse septique',
+    href: '/installation-septique/',
+    text: "Excavation et préparation de terrain pour fosse septique et champ d'épuration, conforme aux normes en vigueur (Q-2, r.22)."
+  },
+  {
+    title: 'Creusage de tranchée',
+    href: '/tranchee/',
+    text: "Tranchées propres pour drainage, conduites, ponceaux et petits travaux souterrains autour de la propriété."
+  },
+  {
+    title: 'Creusage de tranchées',
+    href: '/creusage-tranchees/',
+    text: "Tranchées droites et propres pour drainage, ponceaux, conduites d'eau et services souterrains."
+  },
+  {
+    title: 'Excavation en espace restreint',
+    href: '/excavation-espace-restreint/',
+    text: "Pour les cours fermées, les accès étroits et les endroits où une grosse machine ne passe tout simplement pas."
+  }
+];
+
+const whyUs = [
+  "Équipement compact, comme une mini-pelle -- on travaille dans les espaces serrés sans abîmer votre terrain.",
+  'Chantier propre -- on laisse les lieux en ordre.',
+  'Soumission claire -- un prix expliqué, pas de surprise.',
+  'Avant de creuser, on contacte Info-Excavation pour repérer les conduites souterraines.'
+];
+
+const faqs = [
+  {
+    question: 'Combien coûte un projet de mini-excavation?',
+    answer: "Ça dépend du type de travaux, de l'accès et de l'état du sol. Le plus simple : décrivez-nous votre projet et on vous remet une soumission gratuite et claire avant de commencer."
+  },
+  {
+    question: 'Faites-vous les petits chantiers avec une mini-pelle?',
+    answer: "Oui. La mini-pelle et l'équipement compact sont utiles pour les accès restreints, les cours arrière et les travaux précis près d'une maison."
+  },
+  {
+    question: 'Quelles municipalités desservez-vous?',
+    answer: 'Amos et les environs : Saint-Mathieu-d’Harricana, Saint-Félix-de-Dalquier, Trécesson, La Corne et les secteurs voisins. Appelez-nous pour confirmer votre secteur.'
+  },
+  {
+    question: 'Faut-il faire quelque chose avant de creuser?',
+    answer: "On s'en occupe : avant tout chantier, on contacte Info-Excavation pour repérer les conduites souterraines. C'est gratuit, obligatoire, et ça évite les mauvaises surprises."
+  }
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+---
+<BaseLayout title={site.title} description={site.metaDescription}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <a slot="nav-cta" class="phone-button" href={`tel:${site.phone.href}`}>Appelez {site.phone.display}</a>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Mini-excavation · Drainage · Terrassement</p>
+        <h1>Mini-excavation à Amos</h1>
+        <p class="lead">
+          Des travaux propres, précis et bien faits -- drainage, terrassement, fondation et nivellement.
+          De votre premier coup de godet jusqu'au terrain remis en ordre.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={`tel:${site.phone.href}`}>Demandez une soumission gratuite</a>
+        </div>
+      </div>
+
+      <aside class="card cta-card" aria-label="Soumission rapide">
+        <p class="eyebrow">Réponse rapide</p>
+        <h2>Parlez-nous de votre chantier</h2>
+        <p>
+          Accès, pente, drainage, fondation ou nivellement : un appel suffit pour expliquer les travaux et préparer une
+          soumission claire.
+        </p>
+        <a class="phone-button" href={`tel:${site.phone.href}`}>Appelez {site.phone.display}</a>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Présentation</p>
+        <h2>Votre service de mini-excavation en Abitibi</h2>
+        <p class="lead">
+          De la petite tranchée au réaménagement complet de terrain, on réalise vos travaux d'excavation avec
+          une mini-pelle et de l'équipement compact qui passent là où les grosses machines ne peuvent pas. Résultat : moins de dommages à votre
+          terrain, un chantier propre et un travail fait dans les règles.
+        </p>
+      </div>
+      <div class="notice">
+        <h3>Soumission claire</h3>
+        <p>
+          Décrivez-nous votre projet -- accès, pente, drainage, fondation ou nivellement -- et on vous prépare une
+          soumission claire, sans surprise.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="soft">
+    <div class="container section-head">
+      <p class="eyebrow">Services</p>
+      <h2>Nos services de mini-excavation</h2>
+      <div class="grid-3">
+        {services.map((service) => (
+          <article class="feature">
+            <h3><a href={service.href}>{service.title}</a></h3>
+            <p>{service.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="secteurs">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Secteur local</p>
+        <h2>Amos et les environs</h2>
+        <p>
+          On dessert Amos et les municipalités voisines. Le climat d'ici -- sols argileux et le dégel printanier, fortes pluies et
+          terrains qui se gorgent d'eau -- met les propriétés à rude épreuve, surtout autour des fondations. Une excavation
+          bien faite et un drainage bien pensé font toute la différence.
+        </p>
+        <p><strong>Secteurs desservis :</strong> {site.serviceArea.join(' · ')}</p>
+      </div>
+      <div class="card map-card">
+        <h3>Terrain, eau et fondations</h3>
+        <p>
+          Une pente mal corrigée ou un drainage fatigué peut ramener l'eau vers la maison. On planifie les travaux pour
+          protéger le terrain, l'accès et les fondations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Pourquoi nous</p>
+        <h2>Pourquoi nous confier votre excavation</h2>
+        <ul class="steps">
+          {whyUs.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Déroulement</p>
+        <h2>Comment ça fonctionne</h2>
+        <ol class="steps">
+          <li>Vous nous décrivez votre projet.</li>
+          <li>On évalue l'accès, le sol et l'ampleur des travaux, puis on vous remet une soumission.</li>
+          <li>On planifie et on exécute -- proprement et rapidement.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Avant d'appeler</p>
+        <h2>Préparez votre demande de soumission</h2>
+        <p class="lead">Quelques détails aident à évaluer rapidement si une mini-pelle convient au chantier et à préparer une soumission plus claire.</p>
+      </div>
+      <ul class="steps">
+        <li>Le type de travaux : drain français, terrassement, tranchée, fondation ou nivellement.</li>
+        <li>L'adresse ou le secteur du chantier.</li>
+        <li>L'accès disponible pour la mini-pelle : largeur, pente, cour arrière ou obstacle.</li>
+        <li>Le problème observé : eau au sous-sol, pente vers la maison, sol mou, fissure ou terrain bosselé.</li>
+        <li>Quelques photos du terrain si possible.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <p class="eyebrow">FAQ</p>
+      <h2>Questions fréquentes</h2>
+      <div class="grid-2">
+        {faqs.map((faq) => (
+          <article class="feature">
+            <h3>{faq.question}</h3>
+            <p>{faq.answer}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
