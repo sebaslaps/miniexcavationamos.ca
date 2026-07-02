@@ -53,6 +53,8 @@ describe('mini-excavation Amos local SEO site', () => {
     assert.equal(existsSync(join(root, 'src/layouts/BaseLayout.astro')), true, 'base layout should exist');
     assert.equal(existsSync(join(root, 'public/robots.txt')), true, 'robots.txt should exist');
     assert.equal(existsSync(join(root, 'public/sitemap.xml')), true, 'sitemap.xml should exist');
+    assert.equal(existsSync(join(root, 'public/google6c26042a1fce2aa3.html')), true, 'Google Search Console verification file should exist');
+    assert.equal(read('public/google6c26042a1fce2aa3.html'), 'google-site-verification: google6c26042a1fce2aa3.html');
     assert.match(read('public/robots.txt'), /Sitemap: https:\/\/miniexcavationamos\.ca\/sitemap\.xml/);
     assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/drain-fran%C3%A7ais\//);
     assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/drainage\//);
