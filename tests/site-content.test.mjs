@@ -54,7 +54,7 @@ describe('mini-excavation Amos local SEO site', () => {
     assert.equal(existsSync(join(root, 'public/robots.txt')), true, 'robots.txt should exist');
     assert.equal(existsSync(join(root, 'public/sitemap.xml')), true, 'sitemap.xml should exist');
     assert.match(read('public/robots.txt'), /Sitemap: https:\/\/miniexcavationamos\.ca\/sitemap\.xml/);
-    assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/drain-français\//);
+    assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/drain-fran%C3%A7ais\//);
     assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/drainage\//);
     assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/fissure-fondation\//);
     assert.match(read('public/sitemap.xml'), /https:\/\/miniexcavationamos\.ca\/nivellement\//);
